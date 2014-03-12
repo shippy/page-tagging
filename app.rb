@@ -1,36 +1,53 @@
 require 'sinatra'
+require 'yaml'
+require 'sinatra/activerecord'
+require 'csv'
+ 
+DB_CONFIG = YAML::load(File.open('database.yml'))['development']
+set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
-get '/' do
-	'Hello world!'
-	# render the name input and content categorization in the top
-	# and iframe of the page in the bottom
+class Node < ActiveRecord::Base
+	attr_reader :url, :rank
+	attr_writer :tag, :tagger
+
+	validates :tagger, :url, :tag, presence: true
+	validates :tag, presence: true, inclusion: { in: %w{progressive neutral conservative review} }
 end
 
-get '/label/*' do |label|
-	# check if name has been put in?
-	if params[:label] in %w{progressive neutral conservative review}
-		# save to db
+## Application initialization - import the CSV file with the URLs
+get '/import' do
+	erb :import
+end
+
+post '/import' do
+	# need to skip validations
+end
+
+## Application body - tagging the pages
+# Main page - display the website and the tagging mechanism
+get '/' do
+	# Initialize application
+	redirect to('/import') unless Node.exists?
+
+	node = Node.where(tag: nil).first
+	@url = node.url
+	@rank = node.rank
+
+	erb :classify
+end
+
+# Submission handling
+post '/submit' do
+	node = Node.where(url: params[:url]).first
+	node.update(params)
+
+	# implement actual AJAX response here
+	if node.changed?
+		"Success"
 	else
-		"Incorrect label"
+		"Failure"
 	end
 end
-
-# If there's no database, load up csv file with google results
-# If there is a database:
-# 	get '/' is classifier which takes the next unlabelled page
-# 		and displays the Progressive-Neutral-Conservative /
-# 		Unrelated rating, as well as containing a possible
-# 		review flag and a trigger for name
-#	post '/label' is the AJAX-triggered submission page that
-#		checks if all requirements are satisfied, and adds
-#		the result to the databse
-# TODO:
-# - figure out how to set up a database with sinatra
-# - figure out how to do a csv > db
-# - figure out the templating in Sinatra
-# - figure out the AJAX
-# - figure out deployment
-#
 # To read:
 # - http://stackoverflow.com/questions/15377367/using-sinatra-and-jquery-without-redirecting-on-post
 # - http://ididitmyway.herokuapp.com/past/2011/2/27/ajax_in_sinatra/
