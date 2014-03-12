@@ -14,10 +14,17 @@ class PageTagger < Sinatra::Base
 ## Application initialization - import the CSV file with the URLs
 get '/import' do
 	erb :import
+	# TODO: Create the file upload form
 end
 
 post '/import' do
-	# need to skip validations
+	tempfile = params[:file][:tempfile]
+	rank = 1
+	tempfile.each do |line|
+		# sanitize the URL
+		# save URL and rank to DB; need to skip validations
+		rank += 1
+	end
 end
 
 ## Application body - tagging the pages
@@ -31,6 +38,7 @@ get '/' do
 	@rank = node.rank
 
 	erb :classify
+	# TODO: Create the tagging view
 end
 
 # Submission handling
@@ -38,7 +46,7 @@ post '/submit' do
 	node = Node.where(url: params[:url]).first
 	node.update(params)
 
-	# implement actual AJAX response here
+	# TODO: implement actual AJAX response here
 	if node.changed?
 		"Success"
 	else
@@ -48,10 +56,3 @@ end
 end
 
 PageTagger.run!
-
-# To read:
-# - http://stackoverflow.com/questions/15377367/using-sinatra-and-jquery-without-redirecting-on-post
-# - http://ididitmyway.herokuapp.com/past/2011/2/27/ajax_in_sinatra/
-# - http://www.sitepoint.com/guide-ruby-csv-library-part/
-# - http://samuelstern.wordpress.com/2012/11/28/making-a-simple-database-driven-website-with-sinatra-and-heroku/
-# - http://www.sinatrarb.com/intro.html
