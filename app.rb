@@ -20,7 +20,7 @@ end
 post '/import' do
 	tempfile = params[:file][:tempfile]
 	rank = 1
-	tempfile.each do |line|
+	tempfile.each_line do |line|
 		# sanitize the URL
 		# save URL and rank to DB; need to skip validations
 		rank += 1
