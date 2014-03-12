@@ -2,6 +2,7 @@ require 'sinatra'
 require 'yaml'
 require 'sinatra/activerecord'
 require 'csv'
+require 'sinatra/twitter-bootstrap'
 
 # model of a Node
 require './node.rb'
@@ -9,6 +10,7 @@ require './node.rb'
 DB_CONFIG = YAML::load(File.open('database.yml'))['development']
 set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
+class PageTagger < Sinatra::Base
 ## Application initialization - import the CSV file with the URLs
 get '/import' do
 	erb :import
@@ -43,6 +45,10 @@ post '/submit' do
 		"Failure"
 	end
 end
+end
+
+PageTagger.run!
+
 # To read:
 # - http://stackoverflow.com/questions/15377367/using-sinatra-and-jquery-without-redirecting-on-post
 # - http://ididitmyway.herokuapp.com/past/2011/2/27/ajax_in_sinatra/
