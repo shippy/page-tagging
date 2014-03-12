@@ -2,17 +2,12 @@ require 'sinatra'
 require 'yaml'
 require 'sinatra/activerecord'
 require 'csv'
+
+# model of a Node
+require './node.rb'
  
 DB_CONFIG = YAML::load(File.open('database.yml'))['development']
 set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
-
-class Node < ActiveRecord::Base
-	attr_reader :url, :rank
-	attr_writer :tag, :tagger
-
-	validates :tagger, :url, :tag, presence: true
-	validates :tag, presence: true, inclusion: { in: %w{progressive neutral conservative review} }
-end
 
 ## Application initialization - import the CSV file with the URLs
 get '/import' do
