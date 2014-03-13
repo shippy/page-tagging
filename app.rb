@@ -37,10 +37,6 @@ class PageTagger < Sinatra::Base
 				node.save(validate: false)
 			end
 			redirect to('/')
-			# sanitize the URL
-			# save URL and rank to DB; need to skip validations
-			#rank += 1
-			#print(rank, line)
 		end
 	end
 	
@@ -55,13 +51,12 @@ class PageTagger < Sinatra::Base
 		@rank = node[:rank]
 	
 		erb :classify
-		# TODO: Create the tagging view
 	end
 	
 	# Submission handling
 	post '/submit' do
 		node = Node.where(url: params[:url]).first
-		node.update(params)
+		node.update_attributes(params)
 	
 		# TODO: implement actual AJAX response here
 		if node.changed?
