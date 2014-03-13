@@ -20,14 +20,28 @@ class PageTagger < Sinatra::Base
 	end
 	
 	post '/upload' do
-		file = File.open(params[:file], 'r+')
-		'Success'
-		# tempfile.each_line do |line|
+		unless params[:file] &&
+			(tmpfile = params[:file][:tempfile]) &&
+			(name = params[:file][:filename])
+			@error = "No file selected"
+			return erb(:upload)
+		end
+
+		rank = 0
+		while blk = tmpfile.read(65536)
+			lines = blk.split("\n")
+			lines.each do |line|
+				node = Node.create
+				node.url = line
+				node.rank = rank
+				node.save(validate: false)
+			end
+			redirect to('/')
 			# sanitize the URL
 			# save URL and rank to DB; need to skip validations
-			# rank += 1
-			# print(rank, line)
-		# end
+			#rank += 1
+			#print(rank, line)
+		end
 	end
 	
 	## Application body - tagging the pages
@@ -36,9 +50,9 @@ class PageTagger < Sinatra::Base
 		# Initialize application
 		redirect to('/import') unless Node.exists?
 	
-		node = Node.where(tag: nil).first
-		@url = node.url
-		@rank = node.rank
+		node = Node.where("tag is NULL").first
+		@url = node[:url]
+		@rank = node[:rank]
 	
 		erb :classify
 		# TODO: Create the tagging view
