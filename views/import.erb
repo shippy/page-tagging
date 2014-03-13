@@ -1,5 +1,5 @@
 <h1>Upload the csv file containing the URLs to be tagged</h1>
-<% form_tag('/upload', class: "import-form", method: 'post') do %>
+<% form_tag('/upload', action: :upload, multipart: true, class: "import-form", method: 'post') do %>
 	<%= label_tag :file %>
 	<%= file_field_tag :file %>
 	<%= submit_tag("Upload") %>
