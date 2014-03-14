@@ -16,7 +16,7 @@ class PageTagger < Sinatra::Base
 	## Initial setup
 	enable :sessions
 	register SinatraMore::MarkupPlugin
-	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see http://www.seanbehan.com/how-to-fix-activerecord-connectiontimeouterror-with-sinatra
+	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
 
 
 	## Application initialization - import text file with the URLs
@@ -36,6 +36,7 @@ class PageTagger < Sinatra::Base
 		while blk = tmpfile.read(65536)
 			lines = blk.split("\n")
 			lines.each do |line|
+				rank += 1
 				node = Node.create
 				node.url = line
 				node.rank = rank
