@@ -2,7 +2,7 @@
 	<% form_tag('/submit', method: 'post') do  %>
 		<%= hidden_field_tag :url, value: @url %>
 	<p><%= label_tag(:tagger) %>
-	<%= text_field_tag(:tagger) %>
+	<%= text_field_tag :tagger, value: @tagger %>
 	</p>
 	<%= radio_button_tag :tag, value: 'conservative' %>Conservative
 	<%= radio_button_tag :tag, value: 'progressive' %>Progressive

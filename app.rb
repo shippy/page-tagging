@@ -7,11 +7,14 @@ require 'sinatra_more/markup_plugin'
 
 # model of a Node
 require './node.rb'
+
  
 DB_CONFIG = YAML::load(File.open('database.yml'))['development']
 set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
 class PageTagger < Sinatra::Base
+	enable :sessions
+	
 	register SinatraMore::MarkupPlugin
 	## Application initialization - import text file with the URLs
 	get '/import' do
@@ -49,15 +52,19 @@ class PageTagger < Sinatra::Base
 		node = Node.where("tag is NULL").first
 		@url = node[:url]
 		@rank = node[:rank]
+		@tagger = session[:tagger]
 	
 		erb :classify
 	end
 	
 	# Submission handling
 	post '/submit' do
+		session[:tagger] = params[:tagger]
+
 		node = Node.where(url: params[:url]).first
 		# TODO: Make this asynchronous
 		if node.update_attributes(params)
+			redirect to('/')
 			"Success"
 		else
 			"Failure"
