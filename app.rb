@@ -13,10 +13,9 @@ set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_C
 
 class PageTagger < Sinatra::Base
 	register SinatraMore::MarkupPlugin
-	## Application initialization - import the CSV file with the URLs
+	## Application initialization - import text file with the URLs
 	get '/import' do
 		erb :import
-		# TODO: Create the file upload form
 	end
 	
 	post '/upload' do
@@ -24,7 +23,7 @@ class PageTagger < Sinatra::Base
 			(tmpfile = params[:file][:tempfile]) &&
 			(name = params[:file][:filename])
 			@error = "No file selected"
-			return erb(:upload)
+			return erb(:import)
 		end
 
 		rank = 0
@@ -35,6 +34,7 @@ class PageTagger < Sinatra::Base
 				node.url = line
 				node.rank = rank
 				node.save(validate: false)
+				# FIXME: This could possibly fail if a link is split by 65536th bit
 			end
 			redirect to('/')
 		end
@@ -56,10 +56,8 @@ class PageTagger < Sinatra::Base
 	# Submission handling
 	post '/submit' do
 		node = Node.where(url: params[:url]).first
-		node.update_attributes(params)
-	
-		# TODO: implement actual AJAX response here
-		if node.changed?
+		# TODO: Make this asynchronous
+		if node.update_attributes(params)
 			"Success"
 		else
 			"Failure"
