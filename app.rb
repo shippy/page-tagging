@@ -13,9 +13,12 @@ DB_CONFIG = YAML::load(File.open('database.yml'))['development']
 set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
 class PageTagger < Sinatra::Base
+	## Initial setup
 	enable :sessions
-	
 	register SinatraMore::MarkupPlugin
+	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see http://www.seanbehan.com/how-to-fix-activerecord-connectiontimeouterror-with-sinatra
+
+
 	## Application initialization - import text file with the URLs
 	get '/import' do
 		erb :import
