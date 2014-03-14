@@ -1,19 +1,20 @@
-// Hide form, reveal buttons
-$('tag-form').addClass('hidden');
-$('fancy-tagger').removeClass('hidden');
-// Onclick of any buttons, select the apropriate option and submit form remotely
-$$('#fancy-tagger li').onClick(
+// Simpler solution: on radio-button click, submit form if name isn't empty
+$('submit-button').addClass('hidden');
+$('tag-form').input('tag').forEach(function(item) {
+	item.onClick(
 		function() {
-			content = this.text().toLowerCase();
-			$(content + '-radio').checked = true;
 			$('tag-form').send({
 				onSuccess: function() {
-						   $('viewer').attr('src', '');
+						   location.reload() // FIXME: Overcome cross-origin security warning when changing iframe src?
+						   src = Xhr.load('/next-url')
+						   $('viewer').set('src', src.responseText);
 						   // FIXME: get the next page with AJAX
-					   },
-				onFailure: function() {
-						   $('msg').contents("Failed");
 					   }
 			})
 		})
-// If success, load another page to iframe / reload this one?
+});
+/*
+$('tag-form').onSubmit(
+		function(event) {
+			if ($('tagger').get('value') === '') {
+*/				

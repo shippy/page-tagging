@@ -12,12 +12,20 @@ require './node.rb'
 DB_CONFIG = YAML::load(File.open('database.yml'))['development']
 set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
+
 class PageTagger < Sinatra::Base
 	## Initial setup
 	enable :sessions
 	register SinatraMore::MarkupPlugin
 	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
+	set :protection, :except => :frame_options
 
+	## Helper methods
+	helpers do
+		def nextNode
+			Node.where("tag is NULL").first
+		end
+	end
 
 	## Application initialization - import text file with the URLs
 	get '/import' do
@@ -53,7 +61,7 @@ class PageTagger < Sinatra::Base
 		# Initialize application
 		redirect to('/import') unless Node.exists?
 	
-		node = Node.where("tag is NULL").first
+		node = nextNode
 		@url = node[:url]
 		@rank = node[:rank]
 		@tagger = session[:tagger]
@@ -73,6 +81,11 @@ class PageTagger < Sinatra::Base
 		else
 			"Failure"
 		end
+	end
+
+	get '/next-url' do
+		node = nextNode()
+		return node[:url]
 	end
 end
 
