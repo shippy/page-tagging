@@ -1,22 +1,23 @@
 <div id="tagging">
-	<% form_tag('/submit', method: 'post') do  %>
+	<% form_tag('/submit', method: 'post', id: 'tag-form') do  %>
 		<%= hidden_field_tag :url, value: @url %>
 	<p><%= label_tag(:tagger) %>
 	<%= text_field_tag :tagger, value: @tagger %>
 	</p>
-	<%= radio_button_tag :tag, value: 'conservative' %>Conservative
-	<%= radio_button_tag :tag, value: 'progressive' %>Progressive
-	<%= radio_button_tag :tag, value: 'neutral' %>Neutral
-	<%= radio_button_tag :tag, value: 'review' %>Flag for review
-	<ul>
+	<%= radio_button_tag :tag, value: 'conservative', id: 'conservative-radio' %>Conservative
+	<%= radio_button_tag :tag, value: 'progressive', id: 'progressive-radio' %>Progressive
+	<%= radio_button_tag :tag, value: 'neutral', id: 'neutral-radio' %>Neutral
+	<%= radio_button_tag :tag, value: 'review', id: 'review-radio'  %>Flag for review
+	<%= submit_tag("Tag!") %>
+<% end %>
+
+	<ul id="fancy-tagger hidden">
 		<li>Conservative</li>
 		<li>Neutral</li>
 		<li>Progressive</li>
 		<li>Flag for review</li>
 	</ul>
-	<%= submit_tag("Tag!") %>
-<% end %>
 </div>
-<iframe src="<%= @url %>" height="600" width="800">
+<iframe id="viewer" src="<%= @url %>" height="600" width="800">
 	Could not load the page. Try reloading? If the problem persists, mark this for review.
 </iframe>
