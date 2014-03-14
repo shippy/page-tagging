@@ -13,8 +13,6 @@ $('tag-form').input('tag').forEach(function(item) {
 			})
 		})
 });
-/*
-$('tag-form').onSubmit(
-		function(event) {
-			if ($('tagger').get('value') === '') {
-*/				
+if ($('tagger').get('value') != '') {
+	$('sign-in').addClass('hidden');
+}

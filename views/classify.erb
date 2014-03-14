@@ -1,13 +1,15 @@
 <div id="tagging">
 	<% form_tag('/submit', method: 'post', id: 'tag-form') do  %>
 		<%= hidden_field_tag :url, value: @url %>
+		<p id="sign-in">
 		<%= label_tag(:tagger) %>
 		<%= text_field_tag :tagger, id: 'tagger', value: @tagger %>
+		</p>
 		<p id="tags">
-		<%= radio_button_tag :tag, value: 'conservative', id: 'conservative-radio' %>Conservative
-		<%= radio_button_tag :tag, value: 'progressive', id: 'progressive-radio' %>Progressive
-		<%= radio_button_tag :tag, value: 'neutral', id: 'neutral-radio' %>Neutral
-		<%= radio_button_tag :tag, value: 'review', id: 'review-radio'  %>Flag for review
+		<label><%= radio_button_tag :tag, value: 'conservative', id: 'conservative-radio' %>Conservative</label>
+		<label><%= radio_button_tag :tag, value: 'progressive', id: 'progressive-radio' %>Progressive</label>
+		<label><%= radio_button_tag :tag, value: 'neutral', id: 'neutral-radio' %>Neutral</label>
+		<label><%= radio_button_tag :tag, value: 'review', id: 'review-radio'  %>Flag for review</label>
 		</p>
 		<%= submit_tag("Tag!", id: 'submit-button') %>
 	<% end %>
