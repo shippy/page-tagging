@@ -6,8 +6,8 @@ require 'sinatra/twitter-bootstrap'
 require 'sinatra_more/markup_plugin'
 
 # model of a Node
+require './config/environments'
 require './node.rb'
-
 
 #DB_CONFIG = YAML::load(File.open('config/database.yml'))['development']
 #set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
@@ -15,9 +15,6 @@ class PageTagger < Sinatra::Base
 	## Initial setup
 	enable :sessions
 	set :logging, :true
-
-	DB_CONFIG = YAML::load(File.open('config/database.yml'))[settings.development? ? 'development' : 'production']
-	set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
 	register SinatraMore::MarkupPlugin
 	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
