@@ -8,14 +8,22 @@ require 'sinatra_more/markup_plugin'
 # model of a Node
 require './node.rb'
 
- 
-DB_CONFIG = YAML::load(File.open('database.yml'))['development']
-set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
-
+#DB_CONFIG = YAML::load(File.open('config/database.yml'))['development']
+#set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 class PageTagger < Sinatra::Base
 	## Initial setup
 	enable :sessions
+
+	if settings.development?
+		env = 'development'
+	else
+		env = 'production'
+	end
+
+	DB_CONFIG = YAML::load(File.open('config/database.yml'))[env]
+	set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
+
 	register SinatraMore::MarkupPlugin
 	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
 	set :protection, :except => :frame_options
@@ -54,7 +62,7 @@ class PageTagger < Sinatra::Base
 			redirect to('/')
 		end
 	end
-	
+
 	## Application body - tagging the pages
 	# Main page - display the website and the tagging mechanism
 	get '/' do
