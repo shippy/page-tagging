@@ -127,7 +127,7 @@ class PageTagger < Sinatra::Base
 		node = Node.where(url: params[:url]).first || halt(400)
 		# TODO: Make this asynchronous
 		if node.update_attributes(params)
-			redirect to('/'), 200
+			redirect back
 		else
 			halt 400
 		end
