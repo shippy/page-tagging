@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require 'sinatra/twitter-bootstrap'
 require 'sinatra_more/markup_plugin'
 
 # model of a Node
