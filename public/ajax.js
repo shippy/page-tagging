@@ -6,13 +6,17 @@ $('tag-form').input('tag').forEach(function(item) {
 			$('tag-form').send({
 				onSuccess: function() {
 						   location.reload() // FIXME: Overcome cross-origin security warning when changing iframe src?
-						   src = Xhr.load('/next-url')
-						   $('viewer').set('src', src.responseText);
+						   // src = Xhr.load('/next-url')
+						   // $('viewer').set('src', src.responseText);
 						   // FIXME: get the next page with AJAX
 					   }
 			})
 		})
 });
-if ($('tagger').get('value') != '') {
+if ($('tagger').get('value')) {
 	$('sign-in').addClass('hidden');
+} else {
+	var value = prompt("Please enter your name.");
+	$('tagger').set('value', value);
+	// FIXME: find a less obtrusive way of doing this
 }
