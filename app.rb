@@ -16,13 +16,7 @@ class PageTagger < Sinatra::Base
 	enable :sessions
 	set :logging, :true
 
-	if settings.development?
-		env = 'development'
-	else
-		env = 'production'
-	end
-
-	DB_CONFIG = YAML::load(File.open('config/database.yml'))[env]
+	DB_CONFIG = YAML::load(File.open('config/database.yml'))[settings.development? ? 'development' : 'production']
 	set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 
 	register SinatraMore::MarkupPlugin
