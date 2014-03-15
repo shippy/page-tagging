@@ -100,6 +100,18 @@ class PageTagger < Sinatra::Base
 	
 		erb :classify
 	end
+
+	get '/flagged' do
+		# Do flagged records exist?
+		halt(500) unless Node.exists?
+	
+		node = Node.where(tag: 'review').first
+		@url = node[:url]
+		@rank = node[:rank]
+		@tagger = session[:tagger]
+	
+		erb :classify
+	end
 	
 	# Submission handling
 	post '/submit' do
