@@ -22,19 +22,19 @@ class PageTagger < Sinatra::Base
 
 	## Helper methods
 	helpers do
+		# Gets next untagged node
 		def nextNode
 			Node.where("tag is NULL").first
 		end
+
+		# Takes a block of text, splits it by newlines, and imports all entries that are valid URLs
 		def import_urls(block)
 			rank = 0
 			lines = block.split(/[\r]?\n/)
 			lines.each do |l|
 				if l =~ /^#{URI::regexp}$/
-					puts l
 					rank += 1
-					
 					node = Node.create({url: l, rank: rank})
-					puts node
 					node.save(validate: false)
 				end
 			end
@@ -82,12 +82,15 @@ class PageTagger < Sinatra::Base
 		end
 	end
 
-	# TODO: Create export from database into csv/json/something
+	# Export all as json
+	get '/export' do
+		Node.all.to_json
+	end
 
 	## Application body - tagging the pages
 	# Main page - display the website and the tagging mechanism
 	get '/' do
-		# Initialize application
+		# Do records exist?
 		redirect to('/import') unless Node.exists?
 	
 		node = nextNode
