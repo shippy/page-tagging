@@ -14,6 +14,7 @@ require './node.rb'
 class PageTagger < Sinatra::Base
 	## Initial setup
 	enable :sessions
+	set :logging, :true
 
 	if settings.development?
 		env = 'development'
