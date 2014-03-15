@@ -10,3 +10,4 @@ gem "cells"
 gem "simple_form"
 gem 'sinatra-twitter-bootstrap', :require => 'sinatra/twitter-bootstrap'
 gem 'sinatra_more'
+gem 'pg'
