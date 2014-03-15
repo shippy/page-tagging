@@ -1,7 +1,5 @@
 require 'sinatra'
-require 'yaml'
 require 'sinatra/activerecord'
-require 'csv'
 require 'sinatra/twitter-bootstrap'
 require 'sinatra_more/markup_plugin'
 

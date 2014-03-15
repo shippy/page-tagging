@@ -4,7 +4,6 @@ ruby "1.9.3"
 gem "sinatra"
 gem "activerecord"
 gem "sinatra-activerecord"
-gem 'sinatra-twitter-bootstrap', :require => 'sinatra/twitter-bootstrap'
 gem 'sinatra_more'
 
 group :production do
