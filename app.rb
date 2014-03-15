@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra_more/markup_plugin'
 require 'sinatra/param'
+require 'uri'
 
 # model of a Node
 require './config/environments'
@@ -24,15 +25,42 @@ class PageTagger < Sinatra::Base
 		def nextNode
 			Node.where("tag is NULL").first
 		end
+		def import_urls(block)
+			rank = 0
+			lines = block.split(/[\r]?\n/)
+			lines.each do |l|
+				if l =~ /^#{URI::regexp}$/
+					puts l
+					rank += 1
+					
+					node = Node.create({url: l, rank: rank})
+					puts node
+					node.save(validate: false)
+				end
+			end
+			return true
+		end
+
 	end
 
 	## Application initialization - import text file with the URLs
+	# Import form
 	get '/import' do
 		erb :import
 	end
 	
-	post '/upload' do
-		# TODO: Process things if pasted into textarea
+	# Import management - in pure text
+	post '/import-text' do
+		unless import_urls(params[:text])
+			halt 500
+		else
+			redirect to('/'), 200
+		end
+	end
+
+	# Import management - as a file
+	post '/import-file' do
+		# Check that file has been uploaded
 		unless params[:file] &&
 			(tmpfile = params[:file][:tempfile]) &&
 			(name = params[:file][:filename])
@@ -40,18 +68,17 @@ class PageTagger < Sinatra::Base
 			return erb(:import)
 		end
 
-		rank = 0
+		# Read the entire uploaded file into variable
+		block = ""
 		while blk = tmpfile.read(65536)
-			lines = blk.split("\n")
-			lines.each do |line|
-				rank += 1
-				node = Node.create
-				node.url = line
-				node.rank = rank
-				node.save(validate: false)
-				# FIXME: This could possibly fail if a link is split by 65536th bit
-			end
-			redirect to('/')
+			block << blk
+		end
+
+		# Import into database
+		unless import_urls(block)
+			halt 500
+		else
+			redirect to('/'), 200
 		end
 	end
 

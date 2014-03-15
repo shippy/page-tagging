@@ -1,6 +1,16 @@
-<h1>Upload the csv file containing the URLs to be tagged</h1>
-<% form_tag('/upload', action: :upload, multipart: true, class: "import-form", method: 'post') do %>
+<h1>Import URLs to be processed</h1>
+<p>URLs need to be separated by newlines. Either upload a file in this format, or paste the contents of such file into the textarea.</p>
+<div id="file-import">
+<% form_tag('/import-file', multipart: true, id: "file-import-form", method: 'post') do %>
 	<%= label_tag :file %>
 	<%= file_field_tag :file %>
 	<%= submit_tag("Upload") %>
 <% end %>
+</div>
+<div id="text-import">
+<% form_tag('/import-text', id: "text-import-form", method: 'post') do %>
+	<%= label_tag :text %>
+	<%= text_area_tag :text %>
+	<%= submit_tag("Import") %>
+<% end %>
+</div>
