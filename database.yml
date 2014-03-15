@@ -1,6 +1,0 @@
-development:
-  adapter: mysql
-  database: development
-  username: <%= ENV['MYSQL_USER'] %>
-  password: <%= ENV['MYSQL_PASS'] %>
-  host: localhost
