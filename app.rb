@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra_more/markup_plugin'
+require 'sinatra/param'
 
 # model of a Node
 require './config/environments'
@@ -13,6 +14,7 @@ class PageTagger < Sinatra::Base
 	enable :sessions
 	set :logging, :true
 
+	helpers Sinatra::Param
 	register SinatraMore::MarkupPlugin
 	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
 	set :protection, :except => :frame_options
@@ -30,6 +32,7 @@ class PageTagger < Sinatra::Base
 	end
 	
 	post '/upload' do
+		# TODO: Process things if pasted into textarea
 		unless params[:file] &&
 			(tmpfile = params[:file][:tempfile]) &&
 			(name = params[:file][:filename])
@@ -52,6 +55,8 @@ class PageTagger < Sinatra::Base
 		end
 	end
 
+	# TODO: Create export from database into csv/json/something
+
 	## Application body - tagging the pages
 	# Main page - display the website and the tagging mechanism
 	get '/' do
@@ -68,15 +73,21 @@ class PageTagger < Sinatra::Base
 	
 	# Submission handling
 	post '/submit' do
+		# Parameter contracts
+		param :tag, String, in: ["conservative", "progressive", "neutral", "review"], transform: :downcase, required: true
+		param :tagger, String, required: true
+		param :url, String, required: true
+
+		# Save name into session so it doesn't have to be entered again
 		session[:tagger] = params[:tagger]
 
-		node = Node.where(url: params[:url]).first
+		# Find 
+		node = Node.where(url: params[:url]).first || halt(400)
 		# TODO: Make this asynchronous
 		if node.update_attributes(params)
-			redirect to('/')
-			"Success"
+			redirect to('/'), 200
 		else
-			"Failure"
+			halt 400
 		end
 	end
 

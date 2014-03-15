@@ -5,6 +5,7 @@ gem "sinatra"
 gem "activerecord"
 gem "sinatra-activerecord"
 gem 'sinatra_more'
+gem 'sinatra-param'
 
 group :production do
 	gem 'pg'
