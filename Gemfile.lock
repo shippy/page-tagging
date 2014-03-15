@@ -35,7 +35,6 @@ GEM
     sinatra-activerecord (1.4.0)
       activerecord (>= 3.0)
       sinatra (~> 1.0)
-    sinatra-twitter-bootstrap (2.3.3)
     sinatra_more (0.3.43)
       activesupport
       bundler (>= 0.9.2)
@@ -58,5 +57,4 @@ DEPENDENCIES
   pg
   sinatra
   sinatra-activerecord
-  sinatra-twitter-bootstrap
   sinatra_more
