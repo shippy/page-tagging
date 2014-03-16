@@ -40,7 +40,12 @@ class PageTagger < Sinatra::Base
 			end
 			return true
 		end
-
+		def options
+			Hash["conservative", "Conservative",
+				"neutral", "Neutral",
+				"progressive", "Progressive",
+				"review", "Flag for Review"]
+		end
 	end
 
 	## Application initialization - import text file with the URLs
@@ -117,7 +122,7 @@ class PageTagger < Sinatra::Base
 	# Submission handling
 	post '/submit' do
 		# Parameter contracts
-		param :tag, String, in: ["conservative", "progressive", "neutral", "review"], transform: :downcase, required: true
+		param :tag, String, in: options.keys.to_a, transform: :downcase, required: true
 		param :tagger, String, required: true
 		param :url, String, required: true
 
