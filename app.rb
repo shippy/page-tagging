@@ -40,6 +40,10 @@ class PageTagger < Sinatra::Base
 			end
 			return true
 		end
+
+		# Tagging options
+		# TODO: rename to tags
+		# TODO: load from a config file
 		def options
 			Hash["conservative", "Conservative",
 				"neutral", "Neutral",
@@ -88,7 +92,7 @@ class PageTagger < Sinatra::Base
 	end
 
 	# Export all as json
-	get '/export' do
+	get '/export/?:tag?' do
 		attachment "tagged-urls.json"
 		Node.all.to_json
 	end
