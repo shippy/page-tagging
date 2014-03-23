@@ -48,7 +48,8 @@ class PageTagger < Sinatra::Base
 			Hash["conservative", "Conservative",
 				"neutral", "Neutral",
 				"progressive", "Progressive",
-				"review", "Flag for Review"]
+				"review", "Flag for Review",
+				"irrelevant", "Irrelevant / non-topical"]
 		end
 	end
 
