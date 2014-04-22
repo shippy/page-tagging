@@ -24,7 +24,7 @@ class PageTagger < Sinatra::Base
 	helpers do
 		# Gets next untagged node
 		def nextNode
-			Node.where("tag is NULL").first
+			Node.where("tag is NULL").first(10).sample
 		end
 
 		# Takes a block of text, splits it by newlines, and imports all entries that are valid URLs
