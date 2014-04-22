@@ -18,7 +18,7 @@ class PageTagger < Sinatra::Base
 	helpers Sinatra::Param
 	register SinatraMore::MarkupPlugin
 	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
-	set :protection, :except => :frame_options
+  # set :protection, :except => :frame_options
 
 	## Helper methods
 	helpers do
