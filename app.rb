@@ -26,6 +26,14 @@ class PageTagger < Sinatra::Base
 		def nextNode
 			Node.where("tag is NULL").first(10).sample
 		end
+		
+		def nodesRemainingCount
+		  Node.where("tag is NULL").count
+	  end
+	  
+    def allNodesCount
+      Node.count
+    end
 
 		# Takes a block of text, splits it by newlines, and imports all entries that are valid URLs
 		def import_urls(block)
@@ -111,6 +119,9 @@ class PageTagger < Sinatra::Base
 		@url = node[:url]
 		@rank = node[:rank]
 		@tagger = session[:tagger]
+		
+		@remaining = nodesRemainingCount
+		@nodesCount = allNodesCount
 	
 		erb :classify
 	end

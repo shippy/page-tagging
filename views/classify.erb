@@ -13,7 +13,7 @@
 		<%= submit_tag("Tag!", id: 'submit-button') %>
 	<% end %>
 </div>
-<div id="msg"></div>
+<div id="count"><span id="taggedCount"><%= @nodesCount - @remaining %></span> / <span id="tagTotal"><%= @nodesCount %></span></div>
 <iframe id="viewer" src="<%= @url %>" style="border: 0; width: 100%; height: 100%; ">
 	Could not load the page. Try reloading? If the problem persists, mark this for review.
 </iframe>
