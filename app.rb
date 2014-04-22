@@ -94,7 +94,9 @@ class PageTagger < Sinatra::Base
 	end
 
 	# Export all as json
-	get '/export/?:tag?' do
+	#get '/export/?:tag?' do
+	get '/export' do
+	  # TODO: specific tag
 		attachment "tagged-urls.json"
 		Node.all.to_json
 	end
