@@ -15,6 +15,7 @@ $('tag-form').input('tag').forEach(function(item) {
 });
 if ($('tagger').get('value')) {
 	$('sign-in').addClass('hidden');
+	$('tags').addClass('full-width');
 } else {
 	var value = prompt("Please enter your name.");
 	$('tagger').set('value', value);
