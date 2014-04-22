@@ -58,7 +58,8 @@ class PageTagger < Sinatra::Base
 				"informational", "Informational",
 				"college", "College media",
 				"blog", "Blog / personal",
-				"review", "Other"]
+				"other", "Other"
+				"review", "Flag"]
 		end
 	end
 
