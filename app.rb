@@ -45,11 +45,12 @@ class PageTagger < Sinatra::Base
 		# TODO: rename to tags
 		# TODO: load from a config file
 		def options
-			Hash["conservative", "Conservative",
-				"neutral", "Neutral",
-				"progressive", "Progressive",
-				"review", "Flag for Review",
-				"irrelevant", "Irrelevant / non-topical"]
+			Hash["major", "Major media",
+				"minor", "Minor media",
+				"informational", "Informational",
+				"college", "College media",
+				"blog", "Blog / personal",
+				"review", "Other"]
 		end
 	end
 
