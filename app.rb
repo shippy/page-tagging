@@ -150,9 +150,9 @@ class PageTagger < Sinatra::Base
 		session[:tagger] = params[:tagger]
 
 		# Find 
-		node = Node.where(url: params[:url]).first || halt(400)
+		node = Node.where(url: params[:url]) || halt(400)
 		# TODO: Make this asynchronous
-		if node.update_attributes(params)
+		if node.update_all(params)
 		  puts "Updating with " + params.to_s
 			redirect back
 		else
