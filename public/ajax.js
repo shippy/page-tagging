@@ -3,14 +3,7 @@ $('submit-button').addClass('hidden');
 $('tag-form').input('tag').forEach(function(item) {
 	item.onClick(
 		function() {
-			$('tag-form').send({
-				onSuccess: function() {
-						   location.reload() // FIXME: Overcome cross-origin security warning when changing iframe src?
-						   // src = Xhr.load('/next-url')
-						   // $('viewer').set('src', src.responseText);
-						   // FIXME: get the next page with AJAX
-					   }
-			})
+			$('tag-form').submit()
 		})
 });
 if ($('tagger').get('value')) {
