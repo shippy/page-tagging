@@ -186,6 +186,21 @@ class PageTagger < Sinatra::Base
 	  
 	  erb :stats
   end
+  
+  get '/list' do
+    @nodes = Hash.new
+    tag = nil
+    
+    Node.order(:tag).each do |n|
+      unless n.tag == tag
+        tag = n.tag
+      end
+      @nodes[tag] ||= Array.new
+      @nodes[tag] << n.url
+    end
+    
+    erb :list
+  end
 end
 
 PageTagger.run!

@@ -1,0 +1,8 @@
+<% @nodes.each do |tag, list| %>
+  <h2><%= tag || "Yet to be tagged" %></h2>
+  <ul>
+    <% list.each do |link| %>
+      <li><a href="<%= link %>"><%= link %></a></li>
+    <% end %>
+  </ul>
+<% end %>
