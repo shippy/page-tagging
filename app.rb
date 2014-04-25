@@ -135,11 +135,11 @@ class PageTagger < Sinatra::Base
 		erb :classify
 	end
 
-	get '/flagged' do
+	get '/tag/:tag' do |tag|
 		# Do flagged records exist?
-		halt(500) unless Node.exists?
+		halt(500) unless Node.where(tag: tag).exists?
 	
-		node = Node.where(tag: 'review').first
+		node = Node.where(tag: tag).first
 		@url = node[:url]
 		@rank = node[:rank]
 		@tagger = session[:tagger]
