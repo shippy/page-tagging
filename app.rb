@@ -103,12 +103,20 @@ class PageTagger < Sinatra::Base
 	end
 
 	# Export all as json
-	#get '/export/?:tag?' do
-	get '/export' do
-	  # TODO: specific tag
-		attachment "tagged-urls.json"
-		Node.all.to_json
+	get '/export/?:tag?' do |tag|
+	  if tag
+		  attachment tag + ".json"
+		  Node.where(tag: tag).all.to_json
+	  else
+	    attachment "all-urls.json"
+  		Node.all.to_json
+    end
 	end
+	
+	get '/export-except/:tag' do |tag|
+	  attachment "urls-except-" + tag + ".json"
+	  Node.where('tag != ?', tag).all.to_json
+  end
 
 	## Application body - tagging the pages
 	# Main page - display the website and the tagging mechanism
