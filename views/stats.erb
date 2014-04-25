@@ -1,0 +1,22 @@
+<div id="ranking-page">
+<h1>Tagger ranking</h1>
+<table id="ranking">
+  <thead>
+    <tr>
+      <td>Rank</td>
+      <td>Name</td>
+      <td>Number of pages tagged</td>
+    </tr>
+  </thead>
+  <tbody>
+  <% i = 0 %>
+  <% @count.each do |tagger, count| %>
+    <tr>
+      <td><%= i += 1 %>.</td>
+      <td><%= tagger %><%= '<img src="http://warriorcatsrpg.com/awards/26747-mini.png" />' if i == 1 %></td>
+      <td><%= count %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
