@@ -123,8 +123,13 @@ class PageTagger < Sinatra::Base
 	get '/' do
 		# Do records exist?
 		redirect to('/import') unless Node.exists?
-	
-		node = nextNode
+	  begin
+		  node = nextNode
+		rescue NoMethodError
+		  "All pages have been tagged! Do you want to <a href='/import'>import more</a>, or perhaps
+		  retag the <a href='/tag/review/'>previously flagged ones?</a>"
+	  end
+	  
 		@url = node[:url]
 		@rank = node[:rank]
 		@tagger = session[:tagger]
