@@ -211,4 +211,4 @@ class PageTagger < Sinatra::Base
   end
 end
 
-PageTagger.run!
+# PageTagger.run!
