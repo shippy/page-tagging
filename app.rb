@@ -4,12 +4,9 @@ require 'sinatra_more/markup_plugin'
 require 'sinatra/param'
 require 'uri'
 
-# model of a Node
 require './config/environments'
 require './node.rb'
 
-#DB_CONFIG = YAML::load(File.open('config/database.yml'))['development']
-#set :database, "mysql://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
 class PageTagger < Sinatra::Base
 	## Initial setup
 	enable :sessions
