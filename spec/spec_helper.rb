@@ -21,7 +21,7 @@ end
 
 
 # For RSpec 2.x
-RSpec.configure do |c|
+RSpec.configure do |config|
   config.color_enabled = true
   config.tty = true
   config.formatter = :documentation

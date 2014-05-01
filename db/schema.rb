@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20140312172302) do
 
   create_table "nodes", force: true do |t|
-    t.text  "url",    null: false
+    t.text    "url",    null: false
     t.string  "tag"
     t.string  "tagger"
     t.integer "rank"

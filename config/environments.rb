@@ -12,13 +12,9 @@ configure :production, :development do
 end
 
 configure :test do
-  db = URI.parse('mysql://root@localhost/page_tagging_test')
+  db = URI.parse('sqlite://db/test.db')
   ActiveRecord::Base.establish_connection(
-		:adapter => db.scheme,
-		:host => db.host,
-		:username => db.user,
-		:password => db.password,
-		:database => db.path[1..-1],
-		:encoding => 'utf8'
+		:adapter => 'sqlite3',
+		:database => 'db/test.db'
 	)
 end

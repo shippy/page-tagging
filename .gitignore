@@ -1,2 +1,3 @@
 database.yml
 activity.sh
+db/test.db

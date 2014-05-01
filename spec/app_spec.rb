@@ -25,6 +25,7 @@ describe "The application" do
       end
       it "should display a page without a tag in an iframe"
     end
+    
     describe "/list" do
       it "should load" do
         get '/list'
