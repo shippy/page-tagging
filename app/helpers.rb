@@ -19,7 +19,7 @@ module Sinatra
       rank = 0
       lines = block.split(/[\r]?\n/)
       lines.each do |l|
-        if l =~ /^#{URI::regexp}$/
+        if l =~ /^#{URI::regexp}$/ and l =~ /^https?:\/\//
           rank += 1
           node = Node.create({url: l, rank: rank})
           node.save(validate: false)
