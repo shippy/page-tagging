@@ -1,4 +1,3 @@
-
 # spec/spec_helper.rb
 ENV['RACK_ENV'] = 'test'
 
@@ -12,13 +11,10 @@ set :run, false
 set :raise_errors, true
 set :logging, false
 
-
 module RSpecMixin
   include Rack::Test::Methods
   def app() PageTagger end
 end
-
-
 
 # For RSpec 2.x
 RSpec.configure do |config|
