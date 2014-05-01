@@ -23,4 +23,5 @@ group :test do
   gem 'sqlite3'
   gem 'rspec'
   gem 'rack-test'
+  gem "codeclimate-test-reporter", require: nil
 end
