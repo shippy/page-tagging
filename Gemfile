@@ -22,6 +22,8 @@ end
 group :test do
   gem 'sqlite3'
   gem 'rspec'
+  gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'rack-test'
   gem "codeclimate-test-reporter", require: nil
 end

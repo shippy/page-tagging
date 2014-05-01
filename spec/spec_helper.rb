@@ -5,6 +5,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'rspec'
 require 'rack/test'
+require 'capybara/rspec'
 
 require File.expand_path '../../app.rb', __FILE__
 
@@ -20,6 +21,9 @@ module RSpecMixin
   include Rack::Test::Methods
   def app() PageTagger end
 end
+
+Capybara.app = PageTagger
+Capybara.default_driver = :rack_test # mark JS tests with :js => true or @javascript
 
 # For RSpec 2.x
 RSpec.configure do |config|
