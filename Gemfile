@@ -7,6 +7,8 @@ gem "sinatra-activerecord"
 gem 'sinatra_more'
 gem 'sinatra-param'
 
+gem 'thin'
+
 group :production do
 	gem 'pg'
 end
