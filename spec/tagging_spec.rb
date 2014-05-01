@@ -1,6 +1,6 @@
 require File.expand_path '../spec_helper.rb', __FILE__
 
-describe "Tagging in the application" do
+describe "Tagging: " do
   after(:each) do
     Node.delete_all
   end
