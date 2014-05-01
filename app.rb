@@ -98,6 +98,14 @@ class PageTagger < Sinatra::Base
 			redirect to('/'), 200
 		end
 	end
+	
+	get '/finished' do
+	  if nextNode.nil?
+	    "All pages have been tagged! Do you want to <a href='/import'>import more</a>, or perhaps retag the <a href='/tag/review/'>previously flagged ones?</a>"
+    else
+      redirect to('/')
+    end
+  end
 
 	# Export all as json
 	get '/export/?:tag?' do |tag|
@@ -118,17 +126,13 @@ class PageTagger < Sinatra::Base
 	## Application body - tagging the pages
 	# Main page - display the website and the tagging mechanism
 	get '/' do
-		# Do records exist?
+		# Do records to be tagged exist?
 		redirect to('/import') unless Node.exists?
-	  begin
-		  node = nextNode
-  		@url = node[:url]
-  		@rank = node[:rank]
-		rescue NoMethodError
-		  return "All pages have been tagged! Do you want to <a href='/import'>import more</a>, or perhaps
-		  retag the <a href='/tag/review/'>previously flagged ones?</a>"
-	  end
+	  node = nextNode
+	  redirect to('/finished') if node.nil?
 	  
+  	@url = node[:url]
+  	@rank = node[:rank]	  
 		@tagger = session[:tagger]
 		
 		@remaining = nodesRemainingCount
