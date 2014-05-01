@@ -24,5 +24,3 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include RSpecMixin
 end
-# If you use RSpec 1.x you should use this instead:
-# Spec::Runner.configure { |c| c.include RSpecMixin }

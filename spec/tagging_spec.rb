@@ -1,11 +1,29 @@
-# spec/app_spec.rb
 require File.expand_path '../spec_helper.rb', __FILE__
 
-# TODO: use test database
-
-describe "The application" do
+describe "Tagging in the application" do
   after(:each) do
     Node.delete_all
+  end
+  
+  describe '/tag/:tag' do
+    before(:each) do
+      @node = Node.create({url: 'http://localhost/', tagger: "Simon", tag: "other"})
+      @node.save
+    end
+    context "When the tag exists" do
+      it "should load the tagging page" do
+        get '/tag/other'
+        last_response.should be_ok
+      end
+      it "should display the page to be re-tagged in an iframe"
+    end
+    
+    context "When the tag doesn't exist" do
+      it "should not load" do
+        get '/tag/nonexistent'
+        last_response.should_not be_ok
+      end
+    end
   end
   
   context "When database is empty (setup)" do
@@ -23,7 +41,7 @@ describe "The application" do
   context "When everything has been tagged (teardown)" do
     before(:each) do
       @node = Node.create({url: 'http://localhost/', tagger: "Simon", tag: "other"})
-      @node.save(validate: false)
+      @node.save
     end
     describe "/" do
       it "should redirect me to /finished" do
@@ -38,7 +56,7 @@ describe "The application" do
   context "When there are untagged URLs (normal run)" do
     before(:each) do
       @node = Node.create(url: 'http://localhost/')
-      @node.save(validate: false)
+      @node.save
     end
     
     describe '/' do
