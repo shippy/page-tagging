@@ -53,11 +53,6 @@ class PageTagger < Sinatra::Base
 			halt 400
 		end
 	end
-
-	get '/next-url' do
-		node = nextNode()
-		return node[:url]
-	end
 	
 	get '/finished' do
 	  if nextNode.nil?
