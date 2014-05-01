@@ -11,6 +11,9 @@ set :run, false
 set :raise_errors, true
 set :logging, false
 
+# Suppress forced db-query to stdout in between RSpec test results
+ActiveRecord::Base.logger.level = 2
+
 module RSpecMixin
   include Rack::Test::Methods
   def app() PageTagger end
