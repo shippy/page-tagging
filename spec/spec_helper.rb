@@ -1,4 +1,3 @@
-# spec/spec_helper.rb
 ENV['RACK_ENV'] = 'test'
 
 require 'rspec'
