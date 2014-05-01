@@ -17,7 +17,7 @@ class PageTagger < Sinatra::Base
 		erb :classify
 	end
 
-	get '/tag/:tag' do |tag|
+	get '/retag/:tag' do |tag|
 		# Do flagged records exist?
 		halt(500) unless Node.where(tag: tag).exists?
 	
@@ -31,6 +31,11 @@ class PageTagger < Sinatra::Base
 		
 		erb :classify
 	end
+	
+	get '/retag' do
+	  @tags = Node.uniq.pluck(:tag)
+	  @tags.delete_if { |e| e.nil? }.to_s
+  end
 	
 	# Submission handling
 	post '/submit' do
@@ -55,8 +60,9 @@ class PageTagger < Sinatra::Base
 	end
 	
 	get '/finished' do
-	  if nextNode.nil?
-	    "All pages have been tagged! Do you want to <a href='/import'>import more</a>, or perhaps retag the <a href='/tag/review/'>previously flagged ones?</a>"
+	  if Node.exists? and nextNode.nil?
+	    "All pages have been tagged! Do you want to <a href='/import'>import more</a>," +
+	    " or perhaps retag the <a href='/retag/review/'>previously flagged ones?</a>"
     else
       redirect to('/')
     end
