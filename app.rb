@@ -16,7 +16,7 @@ class PageTagger < Sinatra::Base
 end
 
 # Model & helpers
-require_relative 'node'
+require_relative 'models/node'
 require_relative 'app/helpers'
 PageTagger.helpers Sinatra::NodeHelpers
 PageTagger.helpers Sinatra::ImportHelpers
