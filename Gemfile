@@ -24,6 +24,7 @@ group :test do
   gem 'rspec'
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'factory_girl'
   gem 'rack-test'
   gem "codeclimate-test-reporter", require: nil
 end
