@@ -7,9 +7,14 @@ describe "Tagging: " do
 
   context "When database is empty (setup)" do
     describe "/" do
-      it "should let me set up things"
+      before(:each) { get '/' }
+      it "redirects me to /setup" do
+        last_response.should be_redirect
+        follow_redirect!
+        last_request.url.should include '/setup'
+      end
+        
       it "should redirect me to /import" do
-        get '/'
         last_response.should be_redirect
         follow_redirect!
         last_request.url.should include '/import'
@@ -78,19 +83,24 @@ describe "Tagging: " do
       end
       it "links to routes for retagging of all tags" do
         @tags.each do |t|
-          last_response.body.should include '<a href="' + t + '">'
+          page.has_xpath?("//a[@href='#{t}']")
         end
       end
     end
     
     shared_examples "Functional retag/:tag" do
       context "When the tag exists" do
-        it "loads the tagging page" do
-          node = create(:node, tag: 'other')
+        before(:each) do
+          @node = create(:node, tag: 'other')
           get '/retag/other'
+        end
+        
+        it "loads the tagging page" do
           last_response.should be_ok
         end
-        it "displays the URL to be re-tagged in an iframe"
+        it "displays the URL to be re-tagged in an iframe" do
+          page.has_xpath?("//iframe[@src='#{@node.url}']")
+        end
       end
 
       context "When the tag doesn't exist" do
@@ -110,13 +120,13 @@ describe "Tagging: " do
     end
     
     describe '/' do
-      before(:each) { get '/' }
       it "loads" do
+        get '/'
         last_response.should be_ok
       end
       it "displays a yet-untagged page with an iframe" do
-        page = last_response.body
-        url = page.match('<iframe id="viewer" src="([^"]+)"')[1]
+        visit '/'
+        url = find("iframe#viewer")['src']
         Node.where("url = ? AND tag != NULL", url).count.should == 0
       end
     end

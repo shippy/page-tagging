@@ -5,7 +5,7 @@ ENV['RACK_ENV'] = 'test'
 
 require 'rspec'
 require 'rack/test'
-require 'capybara/rspec'
+require 'capybara'
 require 'factory_girl'
 require 'faker'
 
@@ -36,5 +36,6 @@ RSpec.configure do |config|
   config.formatter = :documentation
   config.include Rack::Test::Methods
   config.include FactoryGirl::Syntax::Methods
+  config.include Capybara::DSL
   config.include RSpecMixin
 end
