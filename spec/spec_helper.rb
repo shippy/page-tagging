@@ -6,6 +6,10 @@ ENV['RACK_ENV'] = 'test'
 require 'rspec'
 require 'rack/test'
 require 'capybara/rspec'
+require 'factory_girl'
+require 'faker'
+
+require_relative './factories.rb'
 
 require File.expand_path '../../app.rb', __FILE__
 
@@ -31,5 +35,6 @@ RSpec.configure do |config|
   config.tty = true
   config.formatter = :documentation
   config.include Rack::Test::Methods
+  config.include FactoryGirl::Syntax::Methods
   config.include RSpecMixin
 end
