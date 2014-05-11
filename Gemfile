@@ -17,6 +17,8 @@ group :development do
 	gem "mysql"
 	gem "mysql2"
 	gem 'pry'
+	gem 'guard'
+	gem 'guard-rspec'
 end
 
 group :test do
