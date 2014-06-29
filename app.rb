@@ -7,12 +7,12 @@ require 'uri'
 require './config/environments'
 
 class PageTagger < Sinatra::Base
-	enable :sessions
-	set :logging, :true
+  enable :sessions
+  set :logging, :true
 
-	helpers Sinatra::Param
-	register SinatraMore::MarkupPlugin
-	after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
+  helpers Sinatra::Param
+  register SinatraMore::MarkupPlugin
+  after { ActiveRecord::Base.connection.close } # Fixes a timeout bug; see #6
 end
 
 # Model & helpers

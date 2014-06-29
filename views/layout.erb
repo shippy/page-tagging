@@ -1,29 +1,29 @@
 <html>
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<title>Tagging!</title>
-		<script src="/right.js" type="text/javascript"></script>
-		<style type="text/css">
-			* {margin: 0; padding: 0; }
-			.hidden {display: none; }
-			#tags {float: left; width: 70%; text-align: center; font-size: 130%; }
-			#tags label {display: block; padding: 20px; float: left; }
-			#tags input {margin-right: 10px; }
-			#sign-in {float: right; width: 20%; padding: 20px;}
-			.full-width {width: 100% !important; }
-			#count {position: absolute; top: 0; right: 0; padding: 0.5em; font-weight: bold;}
-			#count #taggedCount {color: red; }
-			#count #tagTotal {}
-			
-			h1 {text-align: center; margin: 3em; }
-			#ranking {margin: 0 auto; }
-			#ranking td {padding: .5em; text-align: center; }
-			#ranking thead {font-weight: bold; }
-			
-			#ranking-page {width: 600px; border: 2px solid black; padding: 3em; margin: 2em auto 0 auto; }
-		</style>
-	</head>
-	<body>
-        	<%= yield %>
-	</body>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Tagging!</title>
+    <script src="/right.js" type="text/javascript"></script>
+    <style type="text/css">
+      * {margin: 0; padding: 0; }
+      .hidden {display: none; }
+      #tags {float: left; width: 70%; text-align: center; font-size: 130%; }
+      #tags label {display: block; padding: 20px; float: left; }
+      #tags input {margin-right: 10px; }
+      #sign-in {float: right; width: 20%; padding: 20px;}
+      .full-width {width: 100% !important; }
+      #count {position: absolute; top: 0; right: 0; padding: 0.5em; font-weight: bold;}
+      #count #taggedCount {color: red; }
+      #count #tagTotal {}
+      
+      h1 {text-align: center; margin: 3em; }
+      #ranking {margin: 0 auto; }
+      #ranking td {padding: .5em; text-align: center; }
+      #ranking thead {font-weight: bold; }
+      
+      #ranking-page {width: 600px; border: 2px solid black; padding: 3em; margin: 2em auto 0 auto; }
+    </style>
+  </head>
+  <body>
+          <%= yield %>
+  </body>
 </html>

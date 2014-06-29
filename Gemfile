@@ -10,15 +10,15 @@ gem 'sinatra-param'
 gem 'thin'
 
 group :production do
-	gem 'pg'
+  gem 'pg'
 end
 
 group :development do
-	gem "mysql"
-	gem "mysql2"
-	gem 'pry'
-	gem 'guard'
-	gem 'guard-rspec'
+  gem "mysql"
+  gem "mysql2"
+  gem 'pry'
+  gem 'guard'
+  gem 'guard-rspec'
 end
 
 group :test do
